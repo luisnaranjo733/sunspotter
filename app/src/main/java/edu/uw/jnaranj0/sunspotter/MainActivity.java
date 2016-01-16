@@ -1,5 +1,6 @@
 package edu.uw.jnaranj0.sunspotter;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +12,8 @@ import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Sunspotter";
+    public static final String BASE_API_URL = "api.openweathermap.org/data/2.5/forecast";
+    //public static final String API_KEY = "819cc2b23136d64ed52da7754c8f62b3";
     private EditText editText;
 
     @Override
@@ -23,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         if (view.getId() == R.id.button) {
             Editable zipCode = editText.getText();
             Log.v(TAG, "Button clicked! " +  zipCode);
+
+            // fetch weather data
+            Uri.Builder builder = new Uri.Builder();
+            builder.path(this.BASE_API_URL);
+            builder.appendQueryParameter("appid", BuildConfig.OPEN_WEATHER_MAP_API_KEY);
+            builder.appendQueryParameter("q", "Seattle");
+            Log.v(TAG, "URL: " + builder.toString());
+
             LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
             View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
         }
