@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
             //LinearLayout layout = (LinearLayout) findViewById(R.id.inflatedStub);
             TextView txtView1 = (TextView) findViewById(R.id.txtView1);
-            TextView txtView2 = (TextView) findViewById(R.id.txtView2);
+            TextView txtView2 = (TextView) findViewById(R.id.secondTextView);
             ImageView imageView = (ImageView) findViewById(R.id.image);
 
             if (firstSunnyForecast != null) {
@@ -170,11 +171,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(TAG, "Set 2");
                 imageView.setImageResource(R.drawable.d01);
             } else {
-                Log.v(TAG, "NOT SUNNY ANYTIME SOON FUCK");
+                Log.v(TAG, "not sunny anytime soon");
                 txtView2.setText("Looks like there will be no sun in 5 days.");
                 txtView1.setText("It won't be sunny :(");
                 imageView.setImageResource(R.drawable.n10);
             }
+
+            //ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(this, R.layout.activity_main_list_item);
         }
 
     }
