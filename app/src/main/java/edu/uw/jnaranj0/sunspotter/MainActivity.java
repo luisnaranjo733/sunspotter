@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             builder.path(this.BASE_API_URL);
             builder.appendQueryParameter("appid", BuildConfig.OPEN_WEATHER_MAP_API_KEY);
             builder.appendQueryParameter("zip", zipCode.toString());
+            builder.appendQueryParameter("units", "imperial");
             Log.v(TAG, "URL: " + builder.toString());
             FetchWeather weather = new FetchWeather();
             weather.execute(builder.toString());
