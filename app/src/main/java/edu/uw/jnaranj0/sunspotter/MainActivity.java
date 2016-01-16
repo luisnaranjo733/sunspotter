@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -106,8 +107,25 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 JSONObject json = new JSONObject(result);
-            } catch (JSONException exception) {
+                JSONArray forecasts = json.getJSONArray("list");
+                Log.v(TAG, "Succesfull retrieved forecasts: " + forecasts.length());
+                for (int i=0; i < forecasts.length(); i++) {
+                    JSONObject forecast = forecasts.getJSONObject(i);
+                    double dt = forecast.getDouble("dt");
+                    Log.v(TAG, "dt: " + dt);
 
+                    JSONObject main = forecast.getJSONObject("main");
+                    double main_temp = main.getDouble("temp");
+                    Log.v(TAG, "temp: " + main_temp);
+
+                    JSONArray weather = forecast.getJSONArray("weather");
+                    JSONObject weather_obj = weather.getJSONObject(0);
+                    String weather_main = weather_obj.getString("main");
+                    Log.v(TAG, "weather: " + weather_main);
+
+                }
+            } catch (JSONException exception) {
+                exception.printStackTrace();
             }
 
 
