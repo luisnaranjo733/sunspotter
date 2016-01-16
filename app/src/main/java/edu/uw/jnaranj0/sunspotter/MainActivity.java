@@ -120,23 +120,27 @@ public class MainActivity extends AppCompatActivity {
 
             return results;
         }
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(String json) {
+            super.onPostExecute(json);
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            Log.v(TAG, "FINISHED EXECUTING " + result);
+            Log.v(TAG, "Retrieved json: " + json);
 
+            Forecast firstSunnyForecast = null;
             try {
-                JSONObject json = new JSONObject(result);
-                JSONArray forecasts = json.getJSONArray("list");
-                Log.v(TAG, "Succesfull retrieved forecasts: " + forecasts.length());
+                JSONObject root = new JSONObject(json);
+                JSONArray forecasts = root.getJSONArray("list");
+                Log.v(TAG, "Succesfully retrieved " + forecasts.length() + " forecasts: ");
 
                 for (int i=0; i < forecasts.length(); i++) {
                     Forecast forecast = new Forecast(forecasts.getJSONObject(i));
-                    Log.v(TAG, "Date: " + forecast.getDate());
-                    Log.v(TAG, "Temp: " + forecast.getTemp());
-                    Log.v(TAG, "Summary: " + forecast.getSummary());
+                    Log.v(TAG, "Parsed: " + forecast);
+                    if (forecast.isSunny()) {
+                        firstSunnyForecast = forecast;
+                        Log.v(TAG, "Found a sunny day! Breaking out of loop");
+                        break;
+                    }
 
                 }
             } catch (JSONException exception) {
@@ -147,10 +151,12 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
             View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
 
-            TextView txtView1 = (TextView) findViewById(R.id.txtView1);
-            txtView1.setText("Ass");
-            TextView txtView2 = (TextView) findViewById(R.id.txtView2);
-            txtView2.setText("hhole");
+            if (firstSunnyForecast != null) {
+                TextView txtView1 = (TextView) findViewById(R.id.txtView1);
+                txtView1.setText("There will be sun!");
+                TextView txtView2 = (TextView) findViewById(R.id.txtView2);
+                txtView2.setText("It will be sunny on " + firstSunnyForecast.getDate());
+            }
         }
 
     }

@@ -51,4 +51,12 @@ public class Forecast {
     public String getSummary() {
         return this.summary;
     }
+
+    public boolean isSunny() {
+        return this.getSummary().equals("Clear");
+    }
+
+    public String toString() {
+        return this.getSummary() + " on " + this.getDate() + " at " + this.getTemp();
+    }
 }
