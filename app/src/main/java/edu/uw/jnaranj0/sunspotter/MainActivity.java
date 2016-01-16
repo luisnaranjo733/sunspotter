@@ -48,12 +48,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class FetchWeather extends AsyncTask<String, Void, String[]> {
-        protected String[] doInBackground(String... params) {
+    public class FetchWeather extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... params) {
             String api_url = "http://" + params[0];
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             String movies[] = null;
+            String results;
 
             try  {
                 Log.v(TAG, "Entering try");
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 if (buffer.length() == 0) {
                     return null;
                 }
-                String results = buffer.toString();
+                results = buffer.toString();
                 movies = results.split("\n");
                 Log.v(TAG, "Exiting try");
             } catch(IOException io) {
@@ -95,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            return movies;
+            return results;
         }
-        protected void onPostExecute(String[] result) {
-            Log.v(TAG, "FINISHED EXECUTING " + result[0]);
+        protected void onPostExecute(String result) {
+            Log.v(TAG, "FINISHED EXECUTING " + result);
             LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
             View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
         }
