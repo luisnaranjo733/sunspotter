@@ -22,6 +22,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Sunspotter";
@@ -128,8 +131,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(TAG, "Succesfull retrieved forecasts: " + forecasts.length());
                 for (int i=0; i < forecasts.length(); i++) {
                     JSONObject forecast = forecasts.getJSONObject(i);
-                    double dt = forecast.getDouble("dt");
-                    Log.v(TAG, "dt: " + dt);
+                    long dt = forecast.getLong("dt");
+                    Date date = new Date(dt * 1000L);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    sdf.setTimeZone(TimeZone.getTimeZone("GMT-8"));
+                    String formattedDate = sdf.format(date);
+                    Log.v(TAG, "dt: " + formattedDate);
 
                     JSONObject main = forecast.getJSONObject("main");
                     double main_temp = main.getDouble("temp");
