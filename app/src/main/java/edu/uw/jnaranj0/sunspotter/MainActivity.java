@@ -1,5 +1,6 @@
 package edu.uw.jnaranj0.sunspotter;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class FetchWeather extends AsyncTask<String, Void, String> {
+        ProgressDialog pDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
         protected String doInBackground(String... params) {
             String api_url = "http://" + params[0];
             HttpURLConnection urlConnection = null;
@@ -103,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
             return results;
         }
         protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
             Log.v(TAG, "FINISHED EXECUTING " + result);
 
             try {
