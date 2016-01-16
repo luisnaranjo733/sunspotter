@@ -4,8 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Sunspotter";
@@ -21,10 +23,8 @@ public class MainActivity extends AppCompatActivity {
         if (view.getId() == R.id.button) {
             Editable zipCode = editText.getText();
             Log.v(TAG, "Button clicked! " +  zipCode);
-            if (true/*zip code is valid */) {
-                // use it to fetch and process weather data
-                // inflate other ui elements
-            }
+            LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
+            View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
         }
     }
 }
