@@ -20,9 +20,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBtnClicked(View view) {
         if (view.getId() == R.id.button) {
             Editable zipCode = editText.getText();
-            Log.v(TAG, "Button clicked!");
+            Log.v(TAG, "Button clicked! " +  zipCode);
             if (true/*zip code is valid */) {
-                // use it to check the weather
+                // use it to fetch and process weather data
+                // inflate other ui elements
             }
         }
     }
