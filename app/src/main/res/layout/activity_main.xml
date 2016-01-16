@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parentLayout"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -30,6 +30,13 @@
             android:layout_weight="1"
             android:onClick="onBtnClicked"/>
     </LinearLayout>
+    
+    <ViewStub
+        android:id="@+id/stub"
+        android:inflatedId="@+id/inflatedStub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/activity_main_middle"/>
 
     <!--<include layout="@layout/activity_main_middle"></include>-->
 

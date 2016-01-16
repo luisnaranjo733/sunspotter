@@ -9,13 +9,16 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String BASE_API_URL = "api.openweathermap.org/data/2.5/forecast";
     //public static final String API_KEY = "819cc2b23136d64ed52da7754c8f62b3";
     private EditText editText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,15 +151,29 @@ public class MainActivity extends AppCompatActivity {
                 exception.printStackTrace();
             }
 
+            ViewStub stub = (ViewStub) findViewById(R.id.stub);
+            if (stub != null) {
+                Log.v(TAG, "Inflating stub");
+                stub.inflate();
+            }
 
-            LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
-            View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
+            //LinearLayout layout = (LinearLayout) findViewById(R.id.inflatedStub);
+            TextView txtView1 = (TextView) findViewById(R.id.txtView1);
+            TextView txtView2 = (TextView) findViewById(R.id.txtView2);
+            ImageView imageView = (ImageView) findViewById(R.id.image);
 
             if (firstSunnyForecast != null) {
-                TextView txtView1 = (TextView) findViewById(R.id.txtView1);
+                Log.v(TAG, "Updating UI because it will be sunny");
                 txtView1.setText("There will be sun!");
-                TextView txtView2 = (TextView) findViewById(R.id.txtView2);
+                Log.v(TAG, "Set 1");
                 txtView2.setText("It will be sunny on " + firstSunnyForecast.getDate());
+                Log.v(TAG, "Set 2");
+                imageView.setImageResource(R.drawable.d01);
+            } else {
+                Log.v(TAG, "NOT SUNNY ANYTIME SOON FUCK");
+                txtView2.setText("Looks like there will be no sun in 5 days.");
+                txtView1.setText("It won't be sunny :(");
+                imageView.setImageResource(R.drawable.n10);
             }
         }
 
