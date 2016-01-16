@@ -127,42 +127,20 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.v(TAG, "FINISHED EXECUTING " + result);
 
-            JSONObject firstSunnyForecast = null;
             try {
                 JSONObject json = new JSONObject(result);
                 JSONArray forecasts = json.getJSONArray("list");
                 Log.v(TAG, "Succesfull retrieved forecasts: " + forecasts.length());
 
                 for (int i=0; i < forecasts.length(); i++) {
-                    JSONObject forecast = forecasts.getJSONObject(i);
-                    long dt = forecast.getLong("dt");
-                    Date date = new Date(dt * 1000L);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    sdf.setTimeZone(TimeZone.getTimeZone("GMT-8"));
-                    String formattedDate = sdf.format(date);
-                    Log.v(TAG, "dt: " + formattedDate);
-
-                    JSONObject main = forecast.getJSONObject("main");
-                    double main_temp = main.getDouble("temp");
-                    Log.v(TAG, "temp: " + main_temp);
-
-                    JSONArray weather = forecast.getJSONArray("weather");
-                    JSONObject weather_obj = weather.getJSONObject(0);
-                    String weather_summary = weather_obj.getString("main");
-                    // "Clear" means sun
-                    if (weather_summary.equals("Clear")) {
-                        firstSunnyForecast = forecast;
-                        break;
-                    }
-                    Log.v(TAG, "weather: " + weather_summary);
+                    Forecast forecast = new Forecast(forecasts.getJSONObject(i));
+                    Log.v(TAG, "Date: " + forecast.getDate());
+                    Log.v(TAG, "Temp: " + forecast.getTemp());
+                    Log.v(TAG, "Summary: " + forecast.getSummary());
 
                 }
             } catch (JSONException exception) {
                 exception.printStackTrace();
-            }
-
-            if (firstSunnyForecast != null) {
-                Log.v(TAG, "FOUND A SUNNY FORECAST " + firstSunnyForecast);
             }
 
 
