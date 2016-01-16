@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
             FetchWeather weather = new FetchWeather();
             weather.execute(builder.toString());
 
-            LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
-            View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
+
         }
     }
 
@@ -99,10 +98,9 @@ public class MainActivity extends AppCompatActivity {
             return movies;
         }
         protected void onPostExecute(String[] result) {
-            Log.v(TAG, "FINISHED EXECUTING ");
-            for (int i=0; i < result.length; i++) {
-                Log.v(TAG, result[i]);
-            }
+            Log.v(TAG, "FINISHED EXECUTING " + result[0]);
+            LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
+            View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
         }
 
     }
