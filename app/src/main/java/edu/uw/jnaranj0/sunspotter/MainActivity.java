@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             Uri.Builder builder = new Uri.Builder();
             builder.path(this.BASE_API_URL);
             builder.appendQueryParameter("appid", BuildConfig.OPEN_WEATHER_MAP_API_KEY);
-            builder.appendQueryParameter("q", "Seattle");
+            builder.appendQueryParameter("zip", zipCode.toString());
             Log.v(TAG, "URL: " + builder.toString());
             FetchWeather weather = new FetchWeather();
             weather.execute(builder.toString());
@@ -100,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
         }
         protected void onPostExecute(String result) {
             Log.v(TAG, "FINISHED EXECUTING " + result);
+
+            try {
+                JSONObject json = new JSONObject(result);
+            } catch (JSONException exception) {
+
+            }
+
+
             LinearLayout parent = (LinearLayout) findViewById(R.id.parentLayout);
             View child = getLayoutInflater().inflate(R.layout.activity_main_middle, parent, true);
         }
