@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
@@ -192,8 +193,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class ForecastAdapter extends ArrayAdapter<Forecast> {
+        HashMap<String, Integer> icons;
         public ForecastAdapter(Context context, ArrayList<Forecast> forecast) {
             super(context, 0, forecast);
+            /*
+            * Rain -> d09
+            * Clouds -> d03
+            * Clear -> d01
+             */
+            icons = new HashMap<String, Integer>();
+            icons.put("Rain", R.drawable.d09);
+            icons.put("Clouds",  R.drawable.d03);
+            icons.put("Clear", R.drawable.d01);
         }
 
         @Override
@@ -209,12 +220,16 @@ public class MainActivity extends AppCompatActivity {
             TextView forecastText = (TextView) convertView.findViewById(R.id.forecastText);
             TextView temperatureText = (TextView) convertView.findViewById(R.id.temperatureText);
             // Populate the data into the template view using the data object
-            /*
-            * Sun
-            * Rain
-            * Clouds
-             */
-            listImage.setImageResource(R.drawable.n01);
+            int icon = 0;
+            icon = icons.get(forecast.getSummary());
+            if (icon != 0) {
+                Log.v(TAG,  "ICON FOUND!!!!");
+                listImage.setImageResource(icon);
+            } else {
+                Log.v(TAG, "Icon not found...");
+                listImage.setImageResource(R.drawable.n01);
+            }
+
             forecastText.setText(forecast.toString());
             temperatureText.setText("" + forecast.getTemp());
             // Return the completed view to render on screen
