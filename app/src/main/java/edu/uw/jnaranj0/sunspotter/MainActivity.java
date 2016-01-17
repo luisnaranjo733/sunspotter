@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -174,15 +176,28 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(TAG, "Set 2");
                 imageView.setImageResource(R.drawable.d01);
             } else {
-                Log.v(TAG, "not sunny anytime soon");
+                   Log.v(TAG, "not sunny anytime soon");
                 txtView2.setText("Looks like there will be no sun in 5 days.");
                 txtView1.setText("It won't be sunny :(");
                 imageView.setImageResource(R.drawable.n10);
             }
 
-            ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(MainActivity.this, R.layout.activity_main_list_item, forecasts);
-            ListView listView = (ListView) findViewById(R.id.listView);
-            listView.setAdapter(adapter);
+//            String[] data = new String[99];
+//            for(int i=99; i>0; i--){
+//                data[99-i] = i+ " bottles of beer on the wall";
+//            }
+//
+//            ArrayAdapter<String> adapter;
+//            ArrayList<String> list = new ArrayList<String>(Arrays.asList(data));
+//            adapter = new ArrayAdapter<String>(
+//                    MainActivity.this, R.layout.activity_main_list_item, R.id.txtItemForList, list);
+//            AdapterView listView = (AdapterView)findViewById(R.id.listView);
+//            listView.setAdapter(adapter);
+
+
+//            ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(MainActivity.this, R.layout.activity_main_list_item, forecasts);
+//            ListView listView = (ListView) findViewById(R.id.listView);
+//            listView.setAdapter(adapter);
         }
 
     }
