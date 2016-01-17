@@ -146,10 +146,9 @@ public class MainActivity extends AppCompatActivity {
                     Forecast forecast = new Forecast(forecast_list.getJSONObject(i));
                     forecasts.add(forecast);
                     Log.v(TAG, "Parsed: " + forecast);
-                    if (forecast.isSunny()) {
+                    if (forecast.isSunny() && firstSunnyForecast == null) {
                         firstSunnyForecast = forecast;
-                        Log.v(TAG, "Found a sunny day! Breaking out of loop");
-                        break;
+                        Log.v(TAG, "Found a sunny day!");
                     }
 
                 }
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
                 stub.inflate();
             }
 
-            //LinearLayout layout = (LinearLayout) findViewById(R.id.inflatedStub);
             TextView txtView1 = (TextView) findViewById(R.id.txtView1);
             TextView txtView2 = (TextView) findViewById(R.id.secondTextView);
             ImageView imageView = (ImageView) findViewById(R.id.image);
@@ -176,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(TAG, "Set 2");
                 imageView.setImageResource(R.drawable.d01);
             } else {
-                   Log.v(TAG, "not sunny anytime soon");
+                Log.v(TAG, "not sunny anytime soon");
                 txtView2.setText("Looks like there will be no sun in 5 days.");
                 txtView1.setText("It won't be sunny :(");
                 imageView.setImageResource(R.drawable.n10);

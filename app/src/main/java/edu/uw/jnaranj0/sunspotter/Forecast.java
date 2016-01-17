@@ -1,7 +1,5 @@
 package edu.uw.jnaranj0.sunspotter;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,13 +9,15 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by luis on 1/16/16.
+ * Abstraction class to deal with extracting data from an unprocessed JSONObject
  */
+
 public class Forecast {
     private JSONObject forecast;
     private Date date;
     private double temp;
     private String summary;
+    public static final String DATE_FORMAT = "EEEE 'at' K a";
 
     public Forecast(JSONObject forecast) {
         this.forecast = forecast;
@@ -38,7 +38,7 @@ public class Forecast {
     }
 
     public String getDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT-8"));
         String formattedDate = sdf.format(this.date);
         return formattedDate;
@@ -57,6 +57,6 @@ public class Forecast {
     }
 
     public String toString() {
-        return this.getSummary() + " on " + this.getDate() + " at " + this.getTemp();
+        return this.getSummary() + " on " + this.getDate() + " with " + this.getTemp() + " F";
     }
 }
