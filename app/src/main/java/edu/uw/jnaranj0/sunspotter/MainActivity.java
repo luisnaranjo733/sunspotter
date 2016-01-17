@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -28,6 +29,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -131,15 +133,16 @@ public class MainActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
             Log.v(TAG, "Retrieved json: " + json);
-
+            ArrayList<Forecast> forecasts = new ArrayList<Forecast>();
             Forecast firstSunnyForecast = null;
             try {
                 JSONObject root = new JSONObject(json);
-                JSONArray forecasts = root.getJSONArray("list");
-                Log.v(TAG, "Succesfully retrieved " + forecasts.length() + " forecasts: ");
+                JSONArray forecast_list = root.getJSONArray("list");
+                Log.v(TAG, "Succesfully retrieved " + forecast_list.length() + " forecasts: ");
 
-                for (int i=0; i < forecasts.length(); i++) {
-                    Forecast forecast = new Forecast(forecasts.getJSONObject(i));
+                for (int i=0; i < forecast_list.length(); i++) {
+                    Forecast forecast = new Forecast(forecast_list.getJSONObject(i));
+                    forecasts.add(forecast);
                     Log.v(TAG, "Parsed: " + forecast);
                     if (forecast.isSunny()) {
                         firstSunnyForecast = forecast;
@@ -177,7 +180,9 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.n10);
             }
 
-            //ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(this, R.layout.activity_main_list_item);
+            ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(MainActivity.this, R.layout.activity_main_list_item, forecasts);
+            ListView listView = (ListView) findViewById(R.id.listView);
+            listView.setAdapter(adapter);
         }
 
     }
