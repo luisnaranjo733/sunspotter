@@ -1,6 +1,7 @@
 package edu.uw.jnaranj0.sunspotter;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -181,10 +183,42 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(MainActivity.this, R.layout.activity_main_list_item, forecasts);
+            //ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(MainActivity.this, R.layout.activity_main_list_item, forecasts);
+            ForecastAdapter adapter = new ForecastAdapter(MainActivity.this, forecasts);
             AdapterView listView = (AdapterView) findViewById(R.id.listView);
             listView.setAdapter(adapter);
         }
 
+    }
+
+    public class ForecastAdapter extends ArrayAdapter<Forecast> {
+        public ForecastAdapter(Context context, ArrayList<Forecast> forecast) {
+            super(context, 0, forecast);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Get the data item for this position
+            Forecast forecast = getItem(position);
+            // Check if an existing view is being reused, otherwise inflate the view
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_main_list_item, parent, false);
+            }
+            // Lookup view for data population
+            ImageView listImage = (ImageView) convertView.findViewById(R.id.listImage);
+            TextView forecastText = (TextView) convertView.findViewById(R.id.forecastText);
+            TextView temperatureText = (TextView) convertView.findViewById(R.id.temperatureText);
+            // Populate the data into the template view using the data object
+            /*
+            * Sun
+            * Rain
+            * Clouds
+             */
+            listImage.setImageResource(R.drawable.n01);
+            forecastText.setText(forecast.toString());
+            temperatureText.setText("" + forecast.getTemp());
+            // Return the completed view to render on screen
+            return convertView;
+        }
     }
 }

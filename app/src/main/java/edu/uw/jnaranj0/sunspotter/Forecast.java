@@ -57,6 +57,6 @@ public class Forecast {
     }
 
     public String toString() {
-        return this.getSummary() + " on " + this.getDate() + " with " + this.getTemp() + " F";
+        return this.getSummary() + " on " + this.getDate();
     }
 }
