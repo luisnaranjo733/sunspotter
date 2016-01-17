@@ -182,22 +182,10 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.n10);
             }
 
-            String[] data = new String[99];
-            for(int i=99; i>0; i--){
-                data[99-i] = i+ " bottles of beer on the wall";
-            }
 
-            ArrayAdapter<String> adapter;
-            ArrayList<String> list = new ArrayList<String>(Arrays.asList(data));
-            adapter = new ArrayAdapter<String>(
-                    MainActivity.this, R.layout.activity_main_list_item, R.id.txtItemForList, list);
-            AdapterView listView = (AdapterView)findViewById(R.id.listView);
+            ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(MainActivity.this, R.layout.activity_main_list_item, forecasts);
+            AdapterView listView = (AdapterView) findViewById(R.id.listView);
             listView.setAdapter(adapter);
-
-
-//            ArrayAdapter<Forecast> adapter =  new ArrayAdapter<Forecast>(MainActivity.this, R.layout.activity_main_list_item, forecasts);
-//            ListView listView = (ListView) findViewById(R.id.listView);
-//            listView.setAdapter(adapter);
         }
 
     }
