@@ -2,6 +2,7 @@ package edu.uw.jnaranj0.sunspotter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,6 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Sunspotter";
     public static final String BASE_API_URL = "api.openweathermap.org/data/2.5/forecast";
-    //public static final String API_KEY = "819cc2b23136d64ed52da7754c8f62b3";
     private EditText editText;
     private InputMethodManager imm;
 
@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
                     return null;
                 }
                 results = buffer.toString();
-                movies = results.split("\n");
                 Log.v(TAG, "Exiting try");
             } catch(IOException io) {
                 Log.v(TAG, "Caught: " + io);
@@ -144,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int i=0; i < forecast_list.length(); i++) {
                     Forecast forecast = new Forecast(forecast_list.getJSONObject(i));
                     forecasts.add(forecast);
-                    Log.v(TAG, "Parsed: " + forecast);
+                    //Log.v(TAG, "Parsed: " + forecast);
                     if (forecast.isSunny() && firstSunnyForecast == null) {
                         firstSunnyForecast = forecast;
                         Log.v(TAG, "Found a sunny day!");
@@ -163,17 +162,19 @@ public class MainActivity extends AppCompatActivity {
 
             TextView txtView1 = (TextView) findViewById(R.id.txtView1);
             TextView txtView2 = (TextView) findViewById(R.id.secondTextView);
-            ImageView imageView = (ImageView) findViewById(R.id.summaryImage);
+            ImageView image = (ImageView) findViewById(R.id.summaryImage);
 
-            imageView.setImageResource(R.drawable.d01);
+            Log.v(TAG, "SETTING IMAGE");
 
             if (firstSunnyForecast != null) {
+                image.setImageResource(R.drawable.happy);
                 Log.v(TAG, "Updating UI because it will be sunny");
                 txtView1.setText("There will be sun!");
                 Log.v(TAG, "Set 1");
                 txtView2.setText("It will be sunny on " + firstSunnyForecast.getDate());
                 Log.v(TAG, "Set 2");
             } else {
+                image.setImageResource(R.drawable.sad);
                 Log.v(TAG, "not sunny anytime soon");
                 txtView2.setText("Looks like there will be no sun in 5 days.");
                 txtView1.setText("It won't be sunny :(");
@@ -192,11 +193,7 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, Integer> icons;
         public ForecastAdapter(Context context, ArrayList<Forecast> forecast) {
             super(context, 0, forecast);
-            /*
-            * Rain -> d09
-            * Clouds -> d03
-            * Clear -> d01
-             */
+
             icons = new HashMap<String, Integer>();
             icons.put("Rain", R.drawable.d09);
             icons.put("Clouds",  R.drawable.d03);
