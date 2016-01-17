@@ -21,6 +21,8 @@
         android:layout_height="match_parent"
         android:text="46.3F"
         android:gravity="center"
+
+
         android:textStyle="bold"/>
 
 </LinearLayout>

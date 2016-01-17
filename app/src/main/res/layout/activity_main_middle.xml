@@ -6,9 +6,10 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/summaryImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:padding="80dp"
         android:src="@drawable/d01" />
 
     <LinearLayout

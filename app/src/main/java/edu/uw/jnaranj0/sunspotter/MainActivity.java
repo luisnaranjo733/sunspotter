@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -23,26 +24,21 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Sunspotter";
     public static final String BASE_API_URL = "api.openweathermap.org/data/2.5/forecast";
     //public static final String API_KEY = "819cc2b23136d64ed52da7754c8f62b3";
     private EditText editText;
+    private InputMethodManager imm;
 
 
     @Override
@@ -50,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText = (EditText) findViewById(R.id.editText);
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
     public void onBtnClicked(View view) {
         if (view.getId() == R.id.button) {
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             FetchWeather weather = new FetchWeather();
             weather.execute(builder.toString());
 
-
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
     }
 
@@ -87,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             String api_url = "http://" + params[0];
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-            String movies[] = null;
             String results;
 
             try  {
@@ -167,7 +163,9 @@ public class MainActivity extends AppCompatActivity {
 
             TextView txtView1 = (TextView) findViewById(R.id.txtView1);
             TextView txtView2 = (TextView) findViewById(R.id.secondTextView);
-            ImageView imageView = (ImageView) findViewById(R.id.image);
+            ImageView imageView = (ImageView) findViewById(R.id.summaryImage);
+
+            imageView.setImageResource(R.drawable.d01);
 
             if (firstSunnyForecast != null) {
                 Log.v(TAG, "Updating UI because it will be sunny");
@@ -175,12 +173,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(TAG, "Set 1");
                 txtView2.setText("It will be sunny on " + firstSunnyForecast.getDate());
                 Log.v(TAG, "Set 2");
-                imageView.setImageResource(R.drawable.d01);
             } else {
                 Log.v(TAG, "not sunny anytime soon");
                 txtView2.setText("Looks like there will be no sun in 5 days.");
                 txtView1.setText("It won't be sunny :(");
-                imageView.setImageResource(R.drawable.n10);
             }
 
 
@@ -223,11 +219,10 @@ public class MainActivity extends AppCompatActivity {
             int icon = 0;
             icon = icons.get(forecast.getSummary());
             if (icon != 0) {
-                Log.v(TAG,  "ICON FOUND!!!!");
                 listImage.setImageResource(icon);
             } else {
-                Log.v(TAG, "Icon not found...");
-                listImage.setImageResource(R.drawable.n01);
+                //listImage.setImageResource(R.drawable.n01);
+                listImage.setImageResource(R.drawable.shrug);
             }
 
             forecastText.setText(forecast.toString());
